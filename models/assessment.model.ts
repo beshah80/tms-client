@@ -1,27 +1,26 @@
-export interface Quiz {
-    readonly id: string;
+export interface Quiz{
     kind: 'quiz';
-    title: string;
+    id: string;
+    title:string;
     correctAnswers: number;
     totalQuestions: number;
 }
 
-export interface LabAssignment {
-    readonly id: string;
+export interface Lab{
     kind: 'lab';
-    title: string;
-    functionalityScore: number;
-    codeQualityScore: number;
+    id: string;
+    title:string;
+    functionalityScore: number; // 0-100
+    codeQualityScore: number;  // 0-100
 }
 
-export type AssessmentItem = Quiz | LabAssignment;
+export type AssessmentItem = Quiz | Lab;
 
 export function calculateGrade(item: AssessmentItem): number {
-    switch (item.kind) {
-        case 'quiz':
-            if (item.totalQuestions === 0) return 0;
-            return Math.round((item.correctAnswers / item.totalQuestions) * 100);
-        case 'lab':
-            return Math.round(item.functionalityScore * 0.7 + item.codeQualityScore * 0.3);
+    if (item.kind === 'quiz') {
+        return (item.correctAnswers / item.totalQuestions) * 100;
+    } else if (item.kind === 'lab') {
+        return (item.functionalityScore * 0.7) + (item.codeQualityScore * 0.3);
     }
+    throw new Error('Unknown assessment item type');
 }
