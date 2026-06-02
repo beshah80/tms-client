@@ -1,9 +1,30 @@
-import type { Temporal } from '@js-temporal/polyfill';
-interface Course {
+import { Temporal } from '@js-temporal/polyfill';
+export interface Course {
     readonly id: string;
-    name: string;
+    title: string;
     capacity: number;
-    startDate?: Temporal.Instant;
+    startDate: Temporal.PlainDate;
 }
-export type { Course };
+export type CourseStatus = {
+    status: 'DRAFT';
+    createdBy: string;
+    createdAt: Temporal.Instant;
+} | {
+    status: 'PUBLISHED';
+    publishedAt: Temporal.Instant;
+    syllabus: string;
+} | {
+    status: 'ACTIVE';
+    enrolledCount: number;
+    startDate: Temporal.PlainDate;
+} | {
+    status: 'ARCHIVED';
+    archivedAt: Temporal.Instant;
+    finalEnrollmentCount: number;
+} | {
+    status: 'CANCELLED';
+    reason: string;
+    cancelledAt: Temporal.Instant;
+};
+export declare function describeCourse(status: CourseStatus): string;
 //# sourceMappingURL=course.model.d.ts.map
